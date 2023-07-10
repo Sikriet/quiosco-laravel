@@ -21,9 +21,20 @@ class ProductoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Producto $producto)
     {
         //
+        $producto->nombre = $request->nombre;
+        $producto->precio = $request->precio;
+        $producto->imagen = "image_00";
+        $producto->disponible = $request->disponible;
+        $producto->categoria_id = $request->categoria_id;
+        $producto->stock = $request->stock;
+        $producto->save();
+
+        return [
+            'producto' => $producto
+        ];
     }
 
     /**
@@ -43,6 +54,7 @@ class ProductoController extends Controller
         $producto->nombre = $request->nombre;
         $producto->precio = $request->precio;
         $producto->disponible = $request->disponible;
+        $producto->categoria_id = $request->categoria_id;
         $producto->stock = $request->stock;
         $producto->save();
 
