@@ -51,11 +51,17 @@ class ProductoController extends Controller
     public function update(Request $request, Producto $producto)
     {
         //
-        $producto->nombre = $request->nombre;
-        $producto->precio = $request->precio;
-        $producto->disponible = $request->disponible;
-        $producto->categoria_id = $request->categoria_id;
-        $producto->stock = $request->stock;
+        $producto->nombre = $request->nombre ?? $producto->nombre;
+        $producto->precio = $request->precio ?? $producto->precio;
+        $producto->disponible = $request->disponible ?? $producto->disponible;
+        $producto->categoria_id = $request->categoria_id ?? $producto->categoria_id;
+
+        if ($request->has('stock')) {
+            $producto->stock = $request->stock;
+        } else {
+            return response()->json(['error' => '"Stock" es obligatorio.'], 400);
+        }
+        
         $producto->save();
 
         return [
